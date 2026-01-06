@@ -68,6 +68,15 @@ const Content = mongoose.model(
   })
 );
 
+const COURSE_DEFINITIONS = {
+  beginner: "Začetni tečaj jadranja",
+  "course-intermediate": "Nadaljevalni tečaj jadranja",
+  "course-docking": "Tečaj pristajanja",
+  "course-regatta": "Regatno jadranje",
+  "course-rib": "Tečaj gumenjaka"
+};
+
+
 
 
 // Middleware to parse form data
@@ -190,24 +199,26 @@ app.post('/admin/add-course-date', requireAdmin, async (req, res) => {
   const { courseId, label, spots } = req.body;
 
   const doc = await Content.findOne({ key: 'availableCourses' });
-
   const courses = doc?.data || [];
 
-  const course = courses.find(c => c.id === courseId);
+  let course = courses.find(c => c.id === courseId);
 
   if (!course) {
-    courses.push({
+    course = {
       id: courseId,
-      name: courseId,
+      name: COURSE_DEFINITIONS[courseId] || courseId,
       dates: []
-    });
+    };
+    courses.push(course);
+  } else {
+    // 🔒 enforce correct name even on existing courses
+    course.name = COURSE_DEFINITIONS[courseId] || course.name;
   }
 
-  const targetCourse = courses.find(c => c.id === courseId);
-
-  targetCourse.dates.push({
+  course.dates.push({
     id: Date.now().toString(),
     label,
+    capacity: Number(spots),
     spots: Number(spots),
     enabled: true
   });
@@ -219,6 +230,59 @@ app.post('/admin/add-course-date', requireAdmin, async (req, res) => {
   );
 
   res.redirect('/admin/dashboard');
+});
+
+  
+
+app.post('/admin/update-course-date', requireAdmin, async (req, res) => {
+  const { courseId, dateId, label, capacity, spots } = req.body;
+
+  const doc = await Content.findOne({ key: 'availableCourses' });
+  const courses = doc?.data || [];
+
+  const course = courses.find(c => c.id === courseId);
+  if (!course) return res.redirect('/admin/dashboard');
+
+  const date = course.dates.find(d => d.id === dateId);
+  if (!date) return res.redirect('/admin/dashboard');
+
+  date.label = label;
+  date.capacity = Number(capacity);
+  date.spots = Math.min(Number(spots), date.capacity);
+
+  await Content.findOneAndUpdate(
+    { key: 'availableCourses' },
+    { data: courses },
+    { upsert: true }
+  );
+
+  res.redirect('/admin/dashboard');
+});
+
+
+app.post('/admin/delete-course-date', requireAdmin, async (req, res) => {
+  try {
+    const { courseId, dateId } = req.body;
+
+    const doc = await Content.findOne({ key: 'availableCourses' });
+    const courses = doc?.data || [];
+
+    const course = courses.find(c => c.id === courseId);
+    if (!course) return res.redirect('/admin/dashboard');
+
+    course.dates = course.dates.filter(d => d.id !== dateId);
+
+    await Content.findOneAndUpdate(
+      { key: 'availableCourses' },
+      { data: courses },
+      { upsert: true }
+    );
+
+    res.redirect('/admin/dashboard');
+  } catch (err) {
+    console.error('Delete course date error:', err);
+    res.status(500).send('Napaka pri brisanju termina');
+  }
 });
 
 

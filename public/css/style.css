@@ -29,7 +29,7 @@ nav {
     padding: 10px;
     text-align: center;
     position: sticky;   /* Makes it stick */
-    top: 0;             /* Stick to top */
+    top: 114px;            /* Stick to top */
     z-index: 1000;      /* Make sure it stays above content */
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     transition: background 0.3s;
@@ -126,17 +126,21 @@ nav a:hover {
 }
 
 .site-header {
-    background: #0f2a44;
-    padding: 5px 5px 5px 5px;;
-  
-    display: flex;
-    justify-content: center; /* HORIZONTAL CENTER */
-    align-items: center;     /* VERTICAL CENTER */
-  }
-  
+  background: #0f2a44;
+  padding: 5px;
+
+  position: sticky;
+  top: 0;
+  z-index: 2000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
   
   .site-logo {
-    height: 144px;      /* controls navbar height */
+    height: 104px;      /* controls navbar height */
     width: auto;
     display: block;
     box-align: center;
@@ -192,5 +196,262 @@ nav a:hover {
   
   .hidden {
     display: none;
+  }
+  
+
+  .select-course-btn {
+    display: inline-block;
+    width: 100%;
+    margin-top: 24px;
+    padding: 18px 24px;
+  
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  
+    color: #fff;
+    background: linear-gradient(135deg, #0077b6, #0096c7);
+    border: none;
+    border-radius: 14px;
+  
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+  
+    transition: all 0.25s ease;
+  }
+  
+  .select-course-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 26px rgba(0, 119, 182, 0.35);
+    background: linear-gradient(135deg, #005f8f, #0077b6);
+  }
+  
+  .select-course-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 8px 16px rgba(0, 119, 182, 0.25);
+  }
+
+/* NAV DEFAULT (DESKTOP) */
+/* === MOBILE NAVBAR ADDITIONS (SAFE) === */
+
+/* Hamburger button */
+/* MENU TOGGLE (TEXT) */
+.menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  cursor: pointer;
+  color: white;
+}
+
+/* MOBILE HEADER */
+@media (max-width: 768px) {
+
+  /* Header layout */
+  .site-header {
+    justify-content: center;
+    padding: 10px 16px;
+  }
+
+  .menu-toggle {
+    display: block;
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  .site-logo {
+    height: 72px;
+  }
+
+  /* Mobile dropdown nav */
+  nav {
+    position: fixed;
+    top: calc(72px + 20px); /* header height */
+    left: 0;
+    right: 0;
+
+    display: none;
+    flex-direction: column;
+
+    background: rgba(244, 244, 244, 0.92);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+
+    z-index: 1500;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  }
+
+  nav.open {
+    display: flex;
+  }
+
+  nav a {
+    padding: 18px 22px;
+    font-size: 1.1rem;
+    color: #1B2E87;
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+
+  nav a:hover {
+    background: rgba(33, 162, 255, 0.12);
+  }
+}
+
+/*termini tečajev */
+.available {
+  color: #065f46;
+  font-weight: 700;
+}
+
+.full {
+  color: #991b1b;
+  font-weight: 700;
+}
+
+.course-date p {
+  margin: 6px 0;
+}
+
+/* Available courses section */
+.available-course {
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 24px;
+  background: rgba(255,255,255,0.9);
+}
+
+/* Individual date blocks */
+.course-date {
+  border-top: 1px dashed rgba(0,0,0,0.2);
+  padding: 12px 0;
+  margin-top: 12px;
+}
+
+.course-date-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.course-date-link .course-date {
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.course-date-link:hover .course-date {
+  background: rgba(33, 162, 255, 0.08);
+  transform: translateX(2px);
+}
+
+/* Disabled dates */
+.course-date-link.disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.date-cta {
+  display: inline-block;
+  margin-top: 6px;
+  font-weight: 700;
+  color: #0077b6;
+}
+
+
+/* Occupancy card */
+.occupancy-card {
+  padding: 18px;
+}
+
+/* Date text */
+.next-date-label {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin-bottom: 4px;
+}
+
+.next-date {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 20px;
+}
+
+/* Occupancy */
+.occupancy-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 0.95rem;
+  font-style: italic;
+  color: #374151;
+  margin-bottom: 8px;
+}
+
+.occupancy-numbers {
+  font-style: normal;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Progress bar container */
+.occupancy-bar {
+  width: 100%;
+  height: 22px;
+  background: #f3d5ac;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+/* Progress fill */
+.occupancy-bar-fill {
+  height: 100%;
+  background: #e6a34c;
+  border-radius: 8px 0 0 8px;
+  transition: width 0.4s ease;
+}
+
+/* Urgency text */
+.urgency-text {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.course-date-link.disabled .occupancy-bar-fill {
+  background: #b91c1c;
+}
+
+.course-date-link.disabled .urgency-text {
+  color: #991b1b;
+}
+
+
+/* =========================
+   ADMIN PAGE OVERRIDES
+   ========================= */
+
+   body.admin-page {
+    background: #f5f7fa;       /* clean neutral background */
+    background-image: none;    /* remove image */
+  }
+  
+  .logo-link {
+    display: flex;
+    align-items: center;
+  }
+
+  
+  .logo-link:hover {
+    opacity: 0.85;
   }
   

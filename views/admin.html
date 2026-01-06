@@ -3,63 +3,131 @@
 <head>
   <meta charset="UTF-8">
   <title>Admin – Razpisani tečaji</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/css/style.css">
 </head>
-<body>
+<body class="admin-page">
 
-<h1>Admin panel – Razpisani tečaji</h1>
 
-<form method="POST" action="/admin/save-courses">
+  <h1>Admin panel – Razpisani tečaji</h1>
 
-  <div class="admin-course">
-    <h3>Začetni tečaj jadranja</h3>
-    <input type="hidden" name="id[]" value="beginner">
-
-    <label>Termin:</label><br>
-    <input name="date[]" value="12.–14. april 2025"><br><br>
-
-    <label>Prosta mesta:</label><br>
-    <input type="number" name="spots[]" value="3" min="0"><br><br>
+  <!-- EXISTING COURSES -->
+  <div id="admin-courses">
+    <p>Nalaganje tečajev…</p>
   </div>
 
-  <div class="admin-course">
-    <h3>Tečaj pristajanja</h3>
-    <input type="hidden" name="id[]" value="pristajanje">
+  <hr style="margin: 40px 0;">
 
-    <label>Termin:</label><br>
-    <input name="date[]" value="20. april 2025"><br><br>
+  <!-- ADD NEW COURSE DATE -->
+  <h2>Dodaj nov termin</h2>
 
-    <label>Prosta mesta:</label><br>
-    <input type="number" name="spots[]" value="2" min="0"><br><br>
-  </div>
+  <form method="POST" action="/admin/add-course-date" class="admin-course">
+    <label>Tečaj</label><br>
+    <select name="courseId" required>
+      <option value="beginner">Začetni tečaj jadranja</option>
+      <option value="course-intermediate">Nadaljevalni tečaj</option>
+      <option value="course-regatta">Regatno jadranje</option>
+      <option value="course-docking">Tečaj pristajanja</option>
+      <option value="course-rib">Tečaj gumenjaka</option>
+    </select><br><br>
 
-  <button>Shrani spremembe</button>
+    <label>Termin</label><br>
+    <input
+      name="label"
+      placeholder="npr. 12.–14. april 2025"
+      required
+    ><br><br>
 
-</form>
+    <label>Kapaciteta (skupaj)</label><br>
+    <input
+      type="number"
+      name="capacity"
+      min="1"
+      value="${d.capacity ?? d.spots}"
+      required
+    ><br><br>
 
-<h2>Dodaj termin tečaja</h2>
+    <label>Prosta mesta</label><br>
+    <input
+      type="number"
+      name="spots"
+      min="0"
+      max="${d.capacity ?? d.spots}"
+      value="${d.spots}"
+      required
+    ><br><br>
 
-<form method="POST" action="/admin/add-course-date">
 
-  <label>Tečaj</label><br>
-  <select name="courseId" required>
-    <option value="beginner">Začetni tečaj jadranja</option>
-    <option value="intermediate">Nadaljevalni tečaj</option>
-    <option value="advanced">Regatno jadranje</option>
-    <option value="pristajanje">Tečaj pristajanja</option>
-    <option value="gumenjak">Tečaj gumenjaka</option>
-  </select><br><br>
+    <button type="submit">Dodaj termin</button>
+  </form>
 
-  <label>Termin</label><br>
-  <input name="label" placeholder="npr. 12.–14. april 2025" required><br><br>
+  <!-- SCRIPT -->
+  <script>
+    fetch('/api/content/available-courses')
+      .then(res => res.json())
+      .then(courses => {
+        const container = document.getElementById('admin-courses');
 
-  <label>Prosta mesta</label><br>
-  <input type="number" name="spots" min="0" value="1" required><br><br>
+        if (!courses.length) {
+          container.innerHTML = '<p>Ni razpisanih tečajev.</p>';
+          return;
+        }
 
-  <button>Dodaj termin</button>
+        container.innerHTML = courses.map(course => `
+          <div class="admin-course">
+            <h3>${course.name}</h3>
 
-</form>
+            ${course.dates.length === 0
+              ? '<p>Ni razpisanih terminov.</p>'
+              : course.dates.map(d => `
+                <form method="POST" action="/admin/update-course-date" style="margin-bottom: 20px;">
+                  <input type="hidden" name="courseId" value="${course.id}">
+                  <input type="hidden" name="dateId" value="${d.id}">
 
+                  <label>Termin</label><br>
+                  <input name="label" value="${d.label}" required><br><br>
+
+                  <label>Kapaciteta (skupaj)</label><br>
+                  <input
+                    type="number"
+                    name="capacity"
+                    min="1"
+                    value="${d.capacity ?? d.spots}"
+                    required
+                  ><br><br>
+
+                  <label>Prosta mesta</label><br>
+                  <input
+                    type="number"
+                    name="spots"
+                    min="0"
+                    max="${d.capacity ?? d.spots}"
+                    value="${d.spots}"
+                    required
+                  >
+
+
+                  <button type="submit">Shrani</button>
+
+                  <button
+                    type="submit"
+                    formaction="/admin/delete-course-date"
+                    onclick="return confirm('Ali res želiš izbrisati ta termin?')"
+                    style="margin-left: 10px;"
+                  >
+                    Izbriši
+                  </button>
+                </form>
+              `).join('')
+            }
+          </div>
+        `).join('');
+      })
+      .catch(() => {
+        document.getElementById('admin-courses').innerHTML =
+          '<p>Napaka pri nalaganju tečajev.</p>';
+      });
+  </script>
 
 </body>
 </html>

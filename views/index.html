@@ -12,20 +12,25 @@
 
     <body>
       <header class="site-header">
-        <img
-          src="/images/logo.png"
-          alt="Navtični tečaji Izola"
-          class="site-logo"
-        >
+        <button class="menu-toggle" aria-label="Odpri meni">
+          MENU
+        </button>
+      
+        <a href="/" data-link class="logo-link">
+          <img src="/images/logo.png" alt="Logo" class="site-logo">
+        </a>
+
       </header>
       
+      <nav>
+        <a href="/home" data-link>TEČAJI</a>
+        <a href="/izleti" data-link>IZLETI</a>
+        <a href="/boats" data-link>NAJEM PLOVIL</a>
+        <a href="/contact" data-link>KONTAKT</a>
+      </nav>
+      
     
-        <nav>
-            <a href="/home" data-link>TEČAJI</a>
-            <a href="/izleti" data-link>IZLETI</a>
-            <a href="/boats" data-link>NAJEM PLOVIL</a>
-            <a href="/contact" data-link>KONTAKT</a>
-          </nav>
+        
           
     
         <!-- THIS NEVER CHANGES -->

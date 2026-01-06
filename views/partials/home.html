@@ -71,40 +71,5 @@
 
 <div id="available-courses"></div>
 
-<script>
-fetch('/api/content/available-courses')
-  .then(res => res.json())
-  .then(courses => {
-    const container = document.getElementById('available-courses');
-
-    if (!courses.length) {
-      container.innerHTML = '<p>Trenutno ni razpisanih tečajev.</p>';
-      return;
-    }
-
-    container.innerHTML = courses.map(course => `
-      <div class="available-course">
-        <h3>${course.name}</h3>
-
-        ${course.dates.map(d => `
-          <div class="course-date">
-            <p><strong>Termin:</strong> ${d.label}</p>
-            <p><strong>Prosta mesta:</strong> ${d.spots}</p>
-
-            <a
-              href="/${course.id}"
-              data-link
-              class="select-course-btn"
-              ${d.spots === 0 ? 'style="pointer-events:none;opacity:0.5"' : ''}
-            >
-              ${d.spots > 0 ? 'Prijavi se' : 'Zasedeno'}
-            </a>
-          </div>
-        `).join('')}
-
-      </div>
-    `).join('');
-  });
-</script>
 
 
