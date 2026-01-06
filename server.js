@@ -73,7 +73,7 @@ const COURSE_DEFINITIONS = {
   "course-intermediate": "Nadaljevalni tečaj jadranja",
   "course-docking": "Tečaj pristajanja",
   "course-regatta": "Regatno jadranje",
-  "course-rib": "Tečaj gumenjaka"
+  "course-rib": "Tečaj plovbe z gumenjakom"
 };
 
 

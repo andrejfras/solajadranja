@@ -1,64 +1,94 @@
-<h2>Tečaj gumenjaka</h2>
+<section class="course-page" data-course="Tečaj plovbe z gumenjakom"></section>
+
+<h2>Tečaj plovbe z gumenjakom</h2>
 
 <p>
-  Naučite se varnega in samozavestnega pristajanja v marinah
-  v vseh vremenskih pogojih.
+  Imate izpit za voditelja čolna, a nimate praktičnega znanja za plovbo z gumenjakom?
+  Opravite praktični tečaj plovbe z gumenjakom in se sami varno odpravite na morje s katerimkoli gumenjakom.
+</p>
+
+<p>
+  Tečaj poteka na gumenjaku dolžine vsaj 5m in 60hp
 </p>
 
 <ul>
-  <li>Bočni veter</li>
-  <li>Ozki prostori</li>
-  <li>Pristajanje s krmo</li>
+  <li>Spoznavanje gumenjaka</li>
+  <li>pregled in priprava čolna ter opreme</li>
+  <li>varna plovba po marini (uporaba pravil o izogibanju trčenju na morju)</li>
+  <li>glisiranje in manevriranje</li>
+  <li>pristajanje z bočnim privezovanjem in izplutje,</li>
+  <li>privezovanje v četverovez in izplutje,</li>
+  <li>sidranje</li>
 </ul>
 
-<h3>Cena: 180€</h3>
+<p>Tečajniki izmenjujejo vloge na čolnu, tako da vsak izmed njih izvede vse vaje iz programa tečaja.</p>
 
-<form action="/signup" method="POST" class="signup-form">
+<p>Cena tečaja je <b>99€ na osebo</b> in vključuje:<br>
+  <ul><li>4-urni tečaj plovbe na gumenjaku</li>
+    <li>Stroške najema plovila, goriva in zavarovanja</li>
+    <li>Priročnik za pristajanje</li>
+    <li>Video-gradiva</li>
+  </ul></p>
 
-    <!-- COURSE (auto-filled by JS as before) -->
-    <input type="hidden" name="course" id="course-input">
+  <h3>Prijavnica</h3>
+
+  <form action="/signup" method="POST" class="signup-form">
   
-    <label>
-      Ime in priimek <span class="required">*</span><br>
-      <input type="text" name="fullName" required>
-    </label><br><br>
+      <!-- COURSE (auto-filled by JS as before) -->
+      <label>
+        Ime in priimek
+        <span class="required hidden">*</span>
+        <input type="text" name="fullName" required>
+      </label>
+      
+      <label>
+        Ulica in hišna številka
+        <span class="required hidden">*</span>
+        <input type="text" name="address" required>
+      </label>
+      
+      <label>
+        Poštna številka
+        <span class="required hidden">*</span>
+        <input type="text" name="postalCode" required>
+      </label>
+      
+      <label>
+        Kraj
+        <span class="required hidden">*</span>
+        <input type="text" name="city" required>
+      </label>
+      
+      <label>
+        Telefon
+        <span class="required hidden">*</span>
+        <input type="tel" name="phone" required>
+      </label>
+      
+      <label>
+        E-pošta
+        <span class="required hidden">*</span>
+        <input type="email" name="email" required>
+      </label>
+      
+      <label>
+        Število tečajnikov
+        <span class="required hidden">*</span>
+        <input type="number" name="participants" min="1" value="1" required>
+      </label>
+      
+      <label>
+        Opombe
+        <textarea name="notes" rows="4"></textarea>
+      </label>
   
-    <label>
-      Ulica in hišna številka<br>
-      <input type="text" name="address">
-    </label><br><br>
+      <input type="hidden" name="course" id="courseField">
   
-    <label>
-      Poštna številka<br>
-      <input type="text" name="postalCode">
-    </label><br><br>
-  
-    <label>
-      Kraj<br>
-      <input type="text" name="city">
-    </label><br><br>
-  
-    <label>
-      Telefon <span class="required">*</span><br>
-      <input type="tel" name="phone" required>
-    </label><br><br>
-  
-    <label>
-      Email naslov <span class="required">*</span><br>
-      <input type="email" name="email" required>
-    </label><br><br>
-  
-    <label>
-      Število tečajnikov <span class="required">*</span><br>
-      <input type="number" name="participants" min="1" value="1" required>
-    </label><br><br>
-  
-    <label>
-      Opombe<br>
-      <textarea name="notes" rows="4"></textarea>
-    </label><br><br>
-  
-    <button class="select-course-btn">Pošlji prijavo</button>
-  
-  </form>
+      
+    
+      <button class="select-course-btn">Pošlji prijavo</button>
+    
+    </form>
+
+</section>
   
