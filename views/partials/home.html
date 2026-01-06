@@ -1,0 +1,110 @@
+<h2>Praktični tečaji</h2>
+
+<div class="course-cards">
+
+
+  <a href="/beginner" data-link class="course-card">
+
+    <div class="course-image">
+      <img src="/images/beginner.jpg" alt="Začetni tečaj jadranja">
+    </div>
+  
+    <div class="course-content">
+      <h3>Začetni tečaj jadranja</h3>
+      <p>Cena: 149€</p>
+      <p>Osnovni tečaj jadranja za začetnike.</p>
+    </div>
+  </a>
+
+  <a href="/course-docking" data-link class="course-card">
+    <div class="course-image">
+      <img src="/images/docking.jpg" alt="Tečaj pristajanja">
+    </div> 
+    <div class="course-content">
+      <h3>Tečaj pristajanja in manevriranja</h3>
+      <p>Cena: 180€</p>
+      <p>Tečaj varnega in natančnega pristajanja ter manevriranja v marinah.</p>
+    </div>
+  </a>
+
+  <a href="/course-intermediate" data-link class="course-card">
+    <div class="course-image">
+      <img src="/images/intermediate.jpg" alt="Nadaljevalni tečaj jadranja">
+    </div>
+    <div class="course-content">
+      <h3>Nadaljevalni tečaj</h3>
+      <p>Cena: 179€</p>
+      <p>Navigacija ob obali, jadranje z genakerjem.</p>
+    </div>
+  </a>
+  
+  <a href="/course-regatta" data-link class="course-card">
+    <div class="course-image">
+      <img src="/images/regatta.jpg" alt="Regatno jadranje">
+    </div>
+    <div class="course-content">
+      <h3>Regatno jadranje</h3>
+      <p>Cena: 200€</p>
+      <p>Treningi manevrov in udeležba na regatah.</p>
+    </div>
+  </a>
+  
+  
+  <a href="/course-rib" data-link class="course-card">
+    <div class="course-image">
+      <img src="/images/rib.jpg" alt="Tečaj gumenjaka">
+    </div>
+    <div class="course-content">
+      <h3>Tečaj gumenjaka</h3>
+      <p>Cena: 180€</p>
+      <p>Plovba in manevriranje z gumenjakom.</p>
+    </div>
+  </a>
+  
+
+</div>
+
+<hr style="margin: 40px 0;">
+
+<h2>Trenutno razpisani termini tečajev</h2>
+<p>Spodaj so tečaji z odprtimi termini:</p>
+
+<div id="available-courses"></div>
+
+<script>
+fetch('/api/content/available-courses')
+  .then(res => res.json())
+  .then(courses => {
+    const container = document.getElementById('available-courses');
+
+    if (!courses.length) {
+      container.innerHTML = '<p>Trenutno ni razpisanih tečajev.</p>';
+      return;
+    }
+
+    container.innerHTML = courses.map(course => `
+      <div class="available-course">
+        <h3>${course.name}</h3>
+
+        ${course.dates.map(d => `
+          <div class="course-date">
+            <p><strong>Termin:</strong> ${d.label}</p>
+            <p><strong>Prosta mesta:</strong> ${d.spots}</p>
+
+            <a
+              href="/${course.id}"
+              data-link
+              class="select-course-btn"
+              ${d.spots === 0 ? 'style="pointer-events:none;opacity:0.5"' : ''}
+            >
+              ${d.spots > 0 ? 'Prijavi se' : 'Zasedeno'}
+            </a>
+          </div>
+        `).join('')}
+
+      </div>
+    `).join('');
+  });
+</script>
+
+

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin – Razpisani tečaji</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<h1>Admin panel – Razpisani tečaji</h1>
+
+<form method="POST" action="/admin/save-courses">
+
+  <div class="admin-course">
+    <h3>Začetni tečaj jadranja</h3>
+    <input type="hidden" name="id[]" value="beginner">
+
+    <label>Termin:</label><br>
+    <input name="date[]" value="12.–14. april 2025"><br><br>
+
+    <label>Prosta mesta:</label><br>
+    <input type="number" name="spots[]" value="3" min="0"><br><br>
+  </div>
+
+  <div class="admin-course">
+    <h3>Tečaj pristajanja</h3>
+    <input type="hidden" name="id[]" value="pristajanje">
+
+    <label>Termin:</label><br>
+    <input name="date[]" value="20. april 2025"><br><br>
+
+    <label>Prosta mesta:</label><br>
+    <input type="number" name="spots[]" value="2" min="0"><br><br>
+  </div>
+
+  <button>Shrani spremembe</button>
+
+</form>
+
+<h2>Dodaj termin tečaja</h2>
+
+<form method="POST" action="/admin/add-course-date">
+
+  <label>Tečaj</label><br>
+  <select name="courseId" required>
+    <option value="beginner">Začetni tečaj jadranja</option>
+    <option value="intermediate">Nadaljevalni tečaj</option>
+    <option value="advanced">Regatno jadranje</option>
+    <option value="pristajanje">Tečaj pristajanja</option>
+    <option value="gumenjak">Tečaj gumenjaka</option>
+  </select><br><br>
+
+  <label>Termin</label><br>
+  <input name="label" placeholder="npr. 12.–14. april 2025" required><br><br>
+
+  <label>Prosta mesta</label><br>
+  <input type="number" name="spots" min="0" value="1" required><br><br>
+
+  <button>Dodaj termin</button>
+
+</form>
+
+
+</body>
+</html>

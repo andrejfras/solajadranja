@@ -1,0 +1,64 @@
+<h2>Tečaj pristajanja</h2>
+
+<p>
+  Naučite se varnega in samozavestnega pristajanja v marinah
+  v vseh vremenskih pogojih.
+</p>
+
+<ul>
+  <li>Bočni veter</li>
+  <li>Ozki prostori</li>
+  <li>Pristajanje s krmo</li>
+</ul>
+
+<h3>Cena: 180€</h3>
+
+<form action="/signup" method="POST" class="signup-form">
+
+  <!-- COURSE (auto-filled by JS as before) -->
+  <input type="hidden" name="course" id="course-input">
+
+  <label>
+    Ime in priimek <span class="required">*</span><br>
+    <input type="text" name="fullName" required>
+  </label><br><br>
+
+  <label>
+    Ulica in hišna številka<br>
+    <input type="text" name="address">
+  </label><br><br>
+
+  <label>
+    Poštna številka<br>
+    <input type="text" name="postalCode">
+  </label><br><br>
+
+  <label>
+    Kraj<br>
+    <input type="text" name="city">
+  </label><br><br>
+
+  <label>
+    Telefon <span class="required">*</span><br>
+    <input type="tel" name="phone" required>
+  </label><br><br>
+
+  <label>
+    Email naslov <span class="required">*</span><br>
+    <input type="email" name="email" required>
+  </label><br><br>
+
+  <label>
+    Število tečajnikov <span class="required">*</span><br>
+    <input type="number" name="participants" min="1" value="1" required>
+  </label><br><br>
+
+  <label>
+    Opombe<br>
+    <textarea name="notes" rows="4"></textarea>
+  </label><br><br>
+
+  <button class="select-course-btn">Pošlji prijavo</button>
+
+</form>
+
