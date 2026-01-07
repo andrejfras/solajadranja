@@ -53,7 +53,7 @@ nav a:hover {
 
 .course-cards {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(330px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 24px; /* SAME as container padding */
 }
 
@@ -550,6 +550,12 @@ nav a:hover {
   .cta-button {
     width: 100%;
     max-width: 320px;
+  }
+}
+
+@media (max-width: 700px) {
+  .course-card {
+    display: ;
   }
 }
 
