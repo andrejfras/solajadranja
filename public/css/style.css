@@ -151,7 +151,7 @@ nav a:hover {
 .signup-form input,
 .signup-form select,
 .signup-form textarea {
-  width: 90%;
+  width: 100%;
   padding: 12px 14px;          /* BIGGER click area */
   font-size: 1rem;             /* Readable text */
   border: 1px solid #d1d5db;   /* Thin, neutral border */
