@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Course {
+  id                String   @id @default(cuid())
+  slug              String   @unique
+  name              String
+  shortDescription  String   @map("short_description")
+  description       String
+  image             String
+  boat              String?
+  priceEur          Int      @map("price_eur")
+  priceLabel        String   @map("price_label")
+  duration          String?
+  program           Json?
+  includes          Json?
+  note              String?
+  relatedCourseSlug String?  @map("related_course_slug")
+  sortOrder         Int      @default(0) @map("sort_order")
+
+  dates   CourseDate[]
+  signups Signup[]
+
+  @@map("courses")
+}
+
+model CourseDate {
+  id             String   @id @default(cuid())
+  courseId        String   @map("course_id")
+  label          String
+  capacity       Int
+  spotsRemaining Int      @map("spots_remaining")
+  enabled        Boolean  @default(true)
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  course  Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  signups Signup[]
+
+  @@map("course_dates")
+}
+
+model Signup {
+  id           String   @id @default(cuid())
+  courseId      String   @map("course_id")
+  courseDateId String?  @map("course_date_id")
+  fullName     String   @map("full_name")
+  address      String   @default("")
+  postalCode   String   @default("") @map("postal_code")
+  city         String   @default("")
+  phone        String
+  email        String
+  participants Int      @default(1)
+  notes        String?
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  course     Course      @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  courseDate  CourseDate? @relation(fields: [courseDateId], references: [id], onDelete: SetNull)
+
+  @@map("signups")
+}
+
+model Boat {
+  id         String @id @default(cuid())
+  name       String
+  image      String
+  priceLabel String @map("price_label")
+  specs      String
+  sortOrder  Int    @default(0) @map("sort_order")
+
+  @@map("boats")
+}
+
+model AdminUser {
+  id           String @id @default(cuid())
+  username     String @unique
+  passwordHash String @map("password_hash")
+
+  @@map("admin_users")
+}

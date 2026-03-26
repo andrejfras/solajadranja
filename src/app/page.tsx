@@ -1,65 +1,138 @@
+import { prisma } from "@/lib/db";
+import CourseCard from "@/components/CourseCard";
+import OccupancyBar from "@/components/OccupancyBar";
 import Image from "next/image";
 
-export default function Home() {
+export default async function HomePage() {
+  const courses = await prisma.course.findMany({
+    orderBy: { sortOrder: "asc" },
+  });
+
+  const coursesWithDates = await prisma.course.findMany({
+    where: { dates: { some: {} } },
+    orderBy: { sortOrder: "asc" },
+    include: {
+      dates: {
+        where: { enabled: true },
+        orderBy: { createdAt: "asc" },
+      },
+    },
+  });
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <>
+      {/* Hero */}
+      <section className="relative h-[85vh] min-h-[500px] flex items-center justify-center overflow-hidden">
         <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
+          src="/images/back.jpg"
+          alt="Jadransko morje"
+          fill
+          className="object-cover"
           priority
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+        <div className="absolute inset-0 bg-gradient-to-b from-navy/60 via-navy/40 to-navy/80" />
+        <div className="relative z-10 text-center px-4 max-w-3xl animate-fade-in-up">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-6 leading-tight tracking-tight drop-shadow-xl">
+            Iz učilnice<br />
+            <span className="text-amber-300">na odprto morje</span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-lg sm:text-xl text-white/90 mb-8 max-w-xl mx-auto leading-relaxed drop-shadow-lg">
+            Praktični tečaji jadranja, pristajanja in plovbe z gumenjakom.
+            Od začetnikov do regatnih jadralcev.
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
           <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="#courses"
+            className="inline-block px-8 py-4 bg-ocean-light hover:bg-ocean text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all duration-300"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+            Oglej si tečaje
+          </a>
+        </div>
+
+        {/* Scroll indicator */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
+          <svg className="w-6 h-6 text-white/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+          </svg>
+        </div>
+      </section>
+
+      {/* Courses */}
+      <section id="courses" className="py-20 px-4 sm:px-6 bg-gradient-to-b from-slate-50 to-white">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl sm:text-4xl font-black text-navy mb-3">Praktični tečaji</h2>
+            <p className="text-gray-500 text-lg max-w-lg mx-auto">
+              Izberite tečaj, ki ustreza vašemu znanju in ciljem
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {courses.map((c, i) => (
+              <CourseCard
+                key={c.slug}
+                slug={c.slug}
+                name={c.name}
+                shortDescription={c.shortDescription}
+                image={c.image}
+                priceLabel={c.priceLabel}
+                index={i}
+              />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Available dates */}
+      {coursesWithDates.length > 0 && (
+        <section className="py-20 px-4 sm:px-6 bg-white">
+          <div className="max-w-5xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl sm:text-4xl font-black text-navy mb-3">Razpisani termini</h2>
+              <p className="text-gray-500 text-lg">
+                Pohitite s prijavo — mesta so omejena
+              </p>
+            </div>
+
+            <OccupancyBar
+              courses={coursesWithDates.map((c) => ({
+                slug: c.slug,
+                name: c.name,
+                dates: c.dates.map((d) => ({
+                  id: d.id,
+                  label: d.label,
+                  capacity: d.capacity,
+                  spotsRemaining: d.spotsRemaining,
+                })),
+              }))}
             />
-            Deploy Now
-          </a>
+          </div>
+        </section>
+      )}
+
+      {/* CTA */}
+      <section className="relative py-24 px-4 overflow-hidden">
+        <Image
+          src="/images/back.jpg"
+          alt=""
+          fill
+          className="object-cover"
+        />
+        <div className="absolute inset-0 bg-navy/85" />
+        <div className="relative z-10 max-w-2xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-4xl font-black text-white mb-4">
+            Imate vprašanja?
+          </h2>
+          <p className="text-white/70 text-lg mb-8">
+            Kontaktirajte nas za več informacij o tečajih, izletih ali najemu plovil.
+          </p>
           <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/contact"
+            className="inline-block px-8 py-4 bg-white text-navy font-bold text-lg rounded-full hover:bg-gray-100 hover:-translate-y-0.5 hover:shadow-xl transition-all duration-300"
           >
-            Documentation
+            Kontaktirajte nas
           </a>
         </div>
-      </main>
-    </div>
+      </section>
+    </>
   );
 }
