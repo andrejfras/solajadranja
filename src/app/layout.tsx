@@ -1,16 +1,21 @@
 import type { Metadata } from "next";
-import { Roboto_Condensed } from "next/font/google";
+import { Outfit, DM_Sans } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
+import { PublicHeader, PublicFooter } from "@/components/PublicShell";
 
-const roboto = Roboto_Condensed({
+const outfit = Outfit({
   subsets: ["latin", "latin-ext"],
-  variable: "--font-roboto",
+  variable: "--font-outfit",
+});
+
+const dmSans = DM_Sans({
+  subsets: ["latin", "latin-ext"],
+  variable: "--font-dm-sans",
 });
 
 export const metadata: Metadata = {
-  title: "Navtični tečaji Izola",
-  description: "Praktični tečaji jadranja, pristajanja in plovbe z gumenjakom v Izoli.",
+  title: "Navtični tečaji Izola — Od začetnika do samostojne plovbe",
+  description: "Praktični tečaji jadranja, pristajanja in plovbe z gumenjakom v Izoli. 98% uspešnost, garancija na znanje, termini skozi vse leto. Tečaj + najem plovila na enem mestu.",
 };
 
 export default function RootLayout({
@@ -19,15 +24,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="sl" className={roboto.variable}>
-      <body className="min-h-screen flex flex-col">
-        <Header />
+    <html lang="sl" className={`${outfit.variable} ${dmSans.variable}`} data-scroll-behavior="smooth">
+      <body className="min-h-screen flex flex-col font-sans bg-sand text-slate-800">
+        <PublicHeader />
         <main className="flex-1">
           {children}
         </main>
-        <footer className="bg-navy text-white/80 text-center py-6 text-sm tracking-wide">
-          <p>&copy; 2025 Navtični tečaji Izola. Vse pravice pridržane.</p>
-        </footer>
+        <PublicFooter />
       </body>
     </html>
   );

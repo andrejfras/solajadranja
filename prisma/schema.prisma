@@ -37,6 +37,7 @@ model CourseDate {
   capacity       Int
   spotsRemaining Int      @map("spots_remaining")
   enabled        Boolean  @default(true)
+  featured       Boolean  @default(false)
   createdAt      DateTime @default(now()) @map("created_at")
 
   course  Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)

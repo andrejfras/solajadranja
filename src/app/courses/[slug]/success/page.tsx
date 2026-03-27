@@ -13,6 +13,21 @@ export default function SignupSuccess() {
         <p className="text-gray-500 text-lg mb-8">
           Hvala za vašo prijavo. Kontaktirali vas bomo v kratkem.
         </p>
+
+        {/* Cross-sell */}
+        <div className="bg-ocean/5 border border-ocean/10 rounded-2xl p-6 mb-8 text-left">
+          <p className="text-sm font-bold text-navy mb-1">Naslednji korak?</p>
+          <p className="text-gray-500 text-sm mb-3">
+            Po opravljenem tečaju si lahko pri nas najamete plovilo za prvo samostojno plovbo.
+          </p>
+          <Link
+            href="/boats"
+            className="text-ocean font-semibold text-sm hover:underline"
+          >
+            Poglej plovila &rarr;
+          </Link>
+        </div>
+
         <Link
           href="/"
           className="inline-block px-8 py-3.5 bg-gradient-to-r from-ocean to-ocean-light text-white rounded-full text-lg font-bold no-underline hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300"

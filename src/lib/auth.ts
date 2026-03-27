@@ -7,8 +7,10 @@ const SESSION_TOKEN = "authenticated";
 
 export async function login(username: string, password: string): Promise<boolean> {
   const user = await prisma.adminUser.findUnique({ where: { username } });
+  console.log("[auth] login attempt:", username, "found:", !!user, "hash length:", user?.passwordHash?.length);
   if (!user) return false;
   const valid = await bcryptjs.compare(password, user.passwordHash);
+  console.log("[auth] password valid:", valid);
   if (!valid) return false;
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE, SESSION_TOKEN, {

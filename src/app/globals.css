@@ -1,18 +1,22 @@
 @import "tailwindcss";
 
 @theme inline {
-  --font-roboto: "Roboto Condensed", sans-serif;
-  --color-navy: #0f2a44;
-  --color-navy-light: #1b3e66;
-  --color-nav-text: #1B2E87;
-  --color-nav-hover: #21a2ff;
-  --color-btn-blue: #0077b6;
-  --color-btn-blue-dark: #0096c7;
-  --color-bar-bg: #f3d5ac;
-  --color-bar-fill: #e6a34c;
-  --color-footer-bg: #0f2a44;
-  --color-ocean: #0a6aac;
-  --color-ocean-light: #2190d4;
+  --color-navy: #0B192C;
+  --color-navy-light: #183350;
+  --color-nav-text: #0B192C;
+  --color-nav-hover: #1A5F7A;
+  --color-btn-blue: #1A5F7A;
+  --color-btn-blue-dark: #124052;
+  --color-bar-bg: #f8fafc;
+  --color-bar-fill: #E06055;
+  --color-footer-bg: #0B192C;
+  --color-ocean: #1A5F7A;
+  --color-ocean-light: #21789A;
+  --color-coral: #E06055;
+  --color-coral-dark: #cc5045;
+  --color-sand: #f8f9fa;
+  --font-sans: var(--font-dm-sans), sans-serif;
+  --font-display: var(--font-outfit), sans-serif;
 }
 
 html {
@@ -20,11 +24,11 @@ html {
 }
 
 body {
-  font-family: var(--font-roboto);
+  font-family: var(--font-sans);
   margin: 0;
   padding: 0;
   color: #1e293b;
-  background: #f8fafc;
+  background: var(--color-sand);
 }
 
 /* Fade-in animation */

@@ -6,11 +6,21 @@ import SignupForm from "@/components/SignupForm";
 
 export default async function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const course = await prisma.course.findUnique({ where: { slug } });
+  const course = await prisma.course.findUnique({
+    where: { slug },
+    include: {
+      dates: {
+        where: { enabled: true },
+        orderBy: { createdAt: "asc" },
+      },
+    },
+  });
   if (!course) notFound();
 
   const program = (course.program as string[]) || [];
   const includes = (course.includes as string[]) || [];
+
+  const availableDates = course.dates.filter((d) => d.spotsRemaining > 0);
 
   return (
     <>
@@ -97,10 +107,71 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
             </div>
           )}
 
-          {/* Signup form */}
+          {/* Available dates for this course */}
+          {availableDates.length > 0 && (
+            <div className="mb-10">
+              <h2 className="text-2xl font-black text-navy mb-4">Prosti termini</h2>
+              <div className="space-y-3">
+                {availableDates.map((d) => {
+                  const filled = d.capacity - d.spotsRemaining;
+                  const percent = Math.round((filled / d.capacity) * 100);
+                  return (
+                    <div key={d.id} className="bg-white rounded-xl p-4 shadow-sm border border-gray-100">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="font-semibold text-gray-900">{d.label}</span>
+                        <span className={`text-xs font-bold px-2.5 py-1 rounded-full ${
+                          percent >= 70
+                            ? "bg-amber-100 text-amber-700"
+                            : "bg-green-100 text-green-700"
+                        }`}>
+                          {d.spotsRemaining} {d.spotsRemaining === 1 ? "prosto mesto" : "prostih mest"}
+                        </span>
+                      </div>
+                      <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                        <div
+                          className={`h-full rounded-full transition-all duration-700 ${
+                            percent >= 70 ? "bg-amber-400" : "bg-ocean-light"
+                          }`}
+                          style={{ width: `${percent}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+
+          {/* Signup form with trust */}
           <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 mt-12">
-            <h2 className="text-2xl font-black text-navy mb-6">Prijavnica</h2>
+            <h2 className="text-2xl font-black text-navy mb-2">Prijavnica</h2>
+            <p className="text-gray-500 text-sm mb-6">Izpolnite spodnji obrazec in javili se vam bomo v 24 urah.</p>
+
             <SignupForm courseSlug={slug} />
+
+            {/* Trust elements near form */}
+            <div className="mt-6 pt-6 border-t border-gray-100">
+              <div className="flex flex-wrap gap-4 justify-center">
+                <div className="flex items-center gap-2 text-gray-500 text-xs">
+                  <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                  </svg>
+                  <span>Garancija na znanje</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-500 text-xs">
+                  <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span>98% uspešnost</span>
+                </div>
+                <div className="flex items-center gap-2 text-gray-500 text-xs">
+                  <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                  </svg>
+                  <span>Majhne skupine</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>

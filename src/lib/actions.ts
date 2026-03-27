@@ -87,8 +87,9 @@ export async function updateCourseDate(formData: FormData) {
   });
 
   revalidatePath("/admin");
+  revalidatePath("/admin/courses");
   revalidatePath("/");
-  redirect("/admin");
+  redirect("/admin/courses");
 }
 
 export async function deleteCourseDate(formData: FormData) {
@@ -98,8 +99,55 @@ export async function deleteCourseDate(formData: FormData) {
   await prisma.courseDate.delete({ where: { id } });
 
   revalidatePath("/admin");
+  revalidatePath("/admin/courses");
   revalidatePath("/");
-  redirect("/admin");
+  redirect("/admin/courses");
+}
+
+export async function setFeaturedDate(formData: FormData) {
+  if (!(await isAuthenticated())) redirect("/admin/login");
+
+  const id = formData.get("id") as string;
+
+  // Clear all featured flags first, then set the selected one
+  await prisma.courseDate.updateMany({ data: { featured: false } });
+  await prisma.courseDate.update({
+    where: { id },
+    data: { featured: true },
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/courses");
+  revalidatePath("/");
+  redirect("/admin/courses");
+}
+
+export async function clearFeaturedDate(formData: FormData) {
+  if (!(await isAuthenticated())) redirect("/admin/login");
+
+  await prisma.courseDate.updateMany({ data: { featured: false } });
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/courses");
+  revalidatePath("/");
+  redirect("/admin/courses");
+}
+
+export async function toggleCourseDate(formData: FormData) {
+  if (!(await isAuthenticated())) redirect("/admin/login");
+
+  const id = formData.get("id") as string;
+  const enabled = formData.get("enabled") === "true";
+
+  await prisma.courseDate.update({
+    where: { id },
+    data: { enabled },
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/admin/courses");
+  revalidatePath("/");
+  redirect("/admin/courses");
 }
 
 export async function deleteSignup(formData: FormData) {
@@ -109,5 +157,59 @@ export async function deleteSignup(formData: FormData) {
   await prisma.signup.delete({ where: { id } });
 
   revalidatePath("/admin");
-  redirect("/admin");
+  revalidatePath("/admin/signups");
+  redirect("/admin/signups");
+}
+
+// ─── Admin Boats ─────────────────────────────────────
+export async function addBoat(formData: FormData) {
+  if (!(await isAuthenticated())) redirect("/admin/login");
+
+  const name = formData.get("name") as string;
+  const image = formData.get("image") as string;
+  const priceLabel = formData.get("priceLabel") as string;
+  const specs = formData.get("specs") as string;
+  const sortOrder = Number(formData.get("sortOrder")) || 0;
+
+  await prisma.boat.create({
+    data: { name, image, priceLabel, specs, sortOrder },
+  });
+
+  revalidatePath("/admin/boats");
+  revalidatePath("/boats");
+  revalidatePath("/");
+  redirect("/admin/boats");
+}
+
+export async function updateBoat(formData: FormData) {
+  if (!(await isAuthenticated())) redirect("/admin/login");
+
+  const id = formData.get("id") as string;
+  const name = formData.get("name") as string;
+  const image = formData.get("image") as string;
+  const priceLabel = formData.get("priceLabel") as string;
+  const specs = formData.get("specs") as string;
+  const sortOrder = Number(formData.get("sortOrder")) || 0;
+
+  await prisma.boat.update({
+    where: { id },
+    data: { name, image, priceLabel, specs, sortOrder },
+  });
+
+  revalidatePath("/admin/boats");
+  revalidatePath("/boats");
+  revalidatePath("/");
+  redirect("/admin/boats");
+}
+
+export async function deleteBoat(formData: FormData) {
+  if (!(await isAuthenticated())) redirect("/admin/login");
+
+  const id = formData.get("id") as string;
+  await prisma.boat.delete({ where: { id } });
+
+  revalidatePath("/admin/boats");
+  revalidatePath("/boats");
+  revalidatePath("/");
+  redirect("/admin/boats");
 }

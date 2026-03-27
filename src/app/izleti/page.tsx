@@ -8,7 +8,7 @@ export default function IzletiPage() {
       <section className="relative h-[50vh] min-h-[350px] flex items-center justify-center overflow-hidden">
         <Image src="/images/back.jpg" alt="" fill className="object-cover" priority />
         <div className="absolute inset-0 bg-gradient-to-b from-navy/50 to-navy/80" />
-        <div className="relative z-10 text-center px-4 animate-fade-in-up">
+        <div className="relative z-10 text-center px-4 animate-fade-in-up max-w-2xl">
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-4">Jadralski izleti po meri</h1>
           <p className="text-lg text-white/80 max-w-xl mx-auto">
             Doživetja, ki jih prilagodimo vašim željam, času in izkušnjam. Vsak izlet je drugačen.
@@ -57,7 +57,7 @@ export default function IzletiPage() {
 
           {/* CTA */}
           <div className="bg-gradient-to-br from-navy to-navy-light rounded-3xl p-10 sm:p-14 text-center">
-            <h2 className="text-3xl font-black text-white mb-4">Kontaktirajte nas</h2>
+            <h2 className="text-3xl font-black text-white mb-4">Načrtujte svoj izlet</h2>
             <p className="text-white/70 text-lg mb-8 max-w-md mx-auto">
               Pošljite nam povpraševanje in skupaj bomo pripravili predlog izleta.
             </p>
@@ -83,6 +83,20 @@ export default function IzletiPage() {
               </svg>
               <span className="text-sm text-gray-700">Skiper / inštruktor</span>
             </div>
+          </div>
+
+          {/* Cross-sell to courses */}
+          <div className="mt-12 bg-ocean/5 border border-ocean/10 rounded-2xl p-8 text-center">
+            <h3 className="text-xl font-bold text-navy mb-2">Želite na morje sami?</h3>
+            <p className="text-gray-500 text-sm mb-5">
+              Opravite tečaj jadranja ali plovbe z gumenjakom in naslednjič izplujte samostojno.
+            </p>
+            <Link
+              href="/#courses"
+              className="inline-block px-6 py-3 bg-ocean-light hover:bg-ocean text-white font-bold text-sm rounded-full transition-all duration-300"
+            >
+              Poglej tečaje
+            </Link>
           </div>
         </div>
       </section>

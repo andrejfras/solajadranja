@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 export default function ContactPage() {
   return (
@@ -9,7 +10,7 @@ export default function ContactPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-navy/50 to-navy/80" />
         <div className="relative z-10 text-center px-4 animate-fade-in-up">
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-3">Kontakt</h1>
-          <p className="text-lg text-white/80">Pišite nam ali nas pokličite</p>
+          <p className="text-lg text-white/80">Pišite nam ali nas pokličite — odgovorimo v 24 urah</p>
         </div>
       </section>
 
@@ -60,6 +61,22 @@ export default function ContactPage() {
                 <p className="text-sm text-gray-500 mb-0.5">Lokacija</p>
                 <p className="text-lg font-semibold text-navy">Izola, Slovenija</p>
               </div>
+            </div>
+          </div>
+
+          {/* Quick links */}
+          <div className="mt-12 bg-ocean/5 border border-ocean/10 rounded-2xl p-8">
+            <h2 className="text-xl font-bold text-navy mb-4">Iščete kaj konkretnega?</h2>
+            <div className="grid sm:grid-cols-3 gap-3">
+              <Link href="/#courses" className="block text-center py-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 text-sm font-medium text-navy hover:shadow-md hover:border-ocean/20 transition-all">
+                Tečaji jadranja
+              </Link>
+              <Link href="/izleti" className="block text-center py-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 text-sm font-medium text-navy hover:shadow-md hover:border-ocean/20 transition-all">
+                Jadralski izleti
+              </Link>
+              <Link href="/boats" className="block text-center py-3 px-4 bg-white rounded-xl shadow-sm border border-gray-100 text-sm font-medium text-navy hover:shadow-md hover:border-ocean/20 transition-all">
+                Najem plovil
+              </Link>
             </div>
           </div>
         </div>

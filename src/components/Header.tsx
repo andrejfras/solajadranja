@@ -5,7 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 
 const NAV_LINKS = [
-  { label: "TEČAJI", href: "/" },
+  { label: "TEČAJI", href: "/#courses" },
   { label: "IZLETI", href: "/izleti" },
   { label: "NAJEM PLOVIL", href: "/boats" },
   { label: "KONTAKT", href: "/contact" },
@@ -54,6 +54,14 @@ export default function Header() {
               <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-[2px] bg-ocean-light group-hover:w-3/4 transition-all duration-300" />
             </Link>
           ))}
+
+          {/* CTA button in nav */}
+          <Link
+            href="/#dates"
+            className="ml-6 flex items-center justify-center px-6 py-2.5 bg-coral hover:bg-coral-dark text-white font-medium text-xs tracking-widest uppercase rounded-sm shadow hover:shadow-lg transition-all duration-400"
+          >
+            Rezerviraj termin
+          </Link>
         </nav>
 
         {/* Mobile hamburger */}
@@ -69,7 +77,7 @@ export default function Header() {
       </div>
 
       {/* Mobile nav */}
-      <div className={`md:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-80" : "max-h-0"}`}>
+      <div className={`md:hidden overflow-hidden transition-all duration-300 ${open ? "max-h-96" : "max-h-0"}`}>
         <nav className="flex flex-col bg-navy/95 backdrop-blur-md border-t border-white/10 mt-2">
           {NAV_LINKS.map((l) => (
             <Link
@@ -81,6 +89,14 @@ export default function Header() {
               {l.label}
             </Link>
           ))}
+          {/* Mobile CTA */}
+          <Link
+            href="/#dates"
+            onClick={() => setOpen(false)}
+            className="mx-6 my-6 flex justify-center px-6 py-3.5 bg-coral hover:bg-coral-dark text-white font-medium text-xs tracking-widest uppercase text-center rounded-sm shadow-md transition-all"
+          >
+            Rezerviraj termin
+          </Link>
         </nav>
       </div>
     </header>
