@@ -21,7 +21,7 @@ export default function SignupForm({ courseSlug }: { courseSlug: string }) {
 
         <label className="block">
           <span className="text-sm font-medium text-navy">Telefon <span className="text-coral">*</span></span>
-          <input type="tel" name="phone" required className={inputClass} placeholder="+386 XX XXX XXX" />
+          <input type="tel" name="phone" required className={inputClass} placeholder="+386 40 123 456" />
         </label>
       </div>
 

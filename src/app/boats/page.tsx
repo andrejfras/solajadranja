@@ -1,12 +1,33 @@
 import { prisma } from "@/lib/db";
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Najem plovil",
+  description: "Najemite jadrnico ali motorni čoln v Izoli. Zavarovanje in gorivo vključeno. Po opravljenem tečaju s popustom.",
+  alternates: { canonical: "https://navticni-tecaj.si/boats" },
+  openGraph: {
+    title: "Najem plovil — Navtični tečaji Izola",
+    description: "Najemite jadrnico ali motorni čoln v Izoli. Zavarovanje in gorivo vključeno.",
+    url: "https://navticni-tecaj.si/boats",
+  },
+};
 
 export default async function BoatsPage() {
   const boats = await prisma.boat.findMany({ orderBy: { sortOrder: "asc" } });
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Domov", item: "https://navticni-tecaj.si" },
+          { "@type": "ListItem", position: 2, name: "Najem plovil", item: "https://navticni-tecaj.si/boats" },
+        ],
+      }) }} />
+
       {/* Hero */}
       <section className="relative h-[45vh] min-h-[320px] flex items-center justify-center overflow-hidden">
         <Image src="/images/back.jpg" alt="" fill className="object-cover" priority />

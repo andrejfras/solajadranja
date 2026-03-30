@@ -213,3 +213,69 @@ export async function deleteBoat(formData: FormData) {
   revalidatePath("/");
   redirect("/admin/boats");
 }
+
+// ─── Admin Testimonials ──────────────────────────────
+export async function addTestimonial(formData: FormData) {
+  if (!(await isAuthenticated())) redirect("/admin/login");
+
+  await prisma.testimonial.create({
+    data: {
+      name: formData.get("name") as string,
+      text: formData.get("text") as string,
+      role: formData.get("role") as string,
+      stars: Number(formData.get("stars")) || 5,
+      sortOrder: Number(formData.get("sortOrder")) || 0,
+    },
+  });
+
+  revalidatePath("/admin/testimonials");
+  revalidatePath("/");
+  redirect("/admin/testimonials");
+}
+
+export async function updateTestimonial(formData: FormData) {
+  if (!(await isAuthenticated())) redirect("/admin/login");
+
+  const id = formData.get("id") as string;
+  await prisma.testimonial.update({
+    where: { id },
+    data: {
+      name: formData.get("name") as string,
+      text: formData.get("text") as string,
+      role: formData.get("role") as string,
+      stars: Number(formData.get("stars")) || 5,
+      sortOrder: Number(formData.get("sortOrder")) || 0,
+    },
+  });
+
+  revalidatePath("/admin/testimonials");
+  revalidatePath("/");
+  redirect("/admin/testimonials");
+}
+
+export async function toggleTestimonial(formData: FormData) {
+  if (!(await isAuthenticated())) redirect("/admin/login");
+
+  const id = formData.get("id") as string;
+  const enabled = formData.get("enabled") === "true";
+
+  await prisma.testimonial.update({
+    where: { id },
+    data: { enabled },
+  });
+
+  revalidatePath("/admin/testimonials");
+  revalidatePath("/");
+  redirect("/admin/testimonials");
+}
+
+export async function deleteTestimonial(formData: FormData) {
+  if (!(await isAuthenticated())) redirect("/admin/login");
+
+  const id = formData.get("id") as string;
+  await prisma.testimonial.delete({ where: { id } });
+
+  revalidatePath("/admin/testimonials");
+  revalidatePath("/");
+  redirect("/admin/testimonials");
+}

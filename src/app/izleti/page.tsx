@@ -1,9 +1,30 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Jadralski izleti po meri",
+  description: "Jadralski izleti prilagojeni vašim željam. Za pare, družine ali ekipe. Skiper, gorivo in zavarovanje vključeno.",
+  alternates: { canonical: "https://navticni-tecaj.si/izleti" },
+  openGraph: {
+    title: "Jadralski izleti po meri — Navtični tečaji Izola",
+    description: "Jadralski izleti prilagojeni vašim željam. Za pare, družine ali ekipe.",
+    url: "https://navticni-tecaj.si/izleti",
+  },
+};
 
 export default function IzletiPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Domov", item: "https://navticni-tecaj.si" },
+          { "@type": "ListItem", position: 2, name: "Jadralski izleti", item: "https://navticni-tecaj.si/izleti" },
+        ],
+      }) }} />
+
       {/* Hero */}
       <section className="relative h-[50vh] min-h-[350px] flex items-center justify-center overflow-hidden">
         <Image src="/images/back.jpg" alt="" fill className="object-cover" priority />

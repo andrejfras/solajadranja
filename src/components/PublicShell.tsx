@@ -52,8 +52,8 @@ export function PublicFooter() {
                   </a>
                 </li>
                 <li>
-                  <a href="tel:+38600000000" className="text-white/70 hover:text-coral text-sm transition-colors font-light">
-                    +386 XX XXX XXX
+                  <a href="tel:+38640871110" className="text-white/70 hover:text-coral text-sm transition-colors font-light">
+                    +386 40 871 110
                   </a>
                 </li>
                 <li className="text-white/40 text-sm font-light">Izola, Slovenija</li>
@@ -75,7 +75,7 @@ export function PublicFooter() {
 
       {/* Floating WhatsApp Button */}
       <a
-        href="https://wa.me/38600000000"
+        href="https://wa.me/38640871110"
         target="_blank"
         rel="noreferrer"
         className="fixed bottom-24 right-4 md:bottom-10 md:right-10 z-50 bg-[#25D366] text-white p-3.5 md:p-4 rounded-full shadow-2xl hover:scale-110 transition-transform flex items-center justify-center animate-fade-in-up"

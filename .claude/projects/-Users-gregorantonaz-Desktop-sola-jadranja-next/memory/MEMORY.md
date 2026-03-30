@@ -1,0 +1,2 @@
+- [Website Audit](project_website_audit.md) — March 2026 comprehensive UX/conversion/branding audit with prioritized improvements
+- [User Profile](user_profile.md) — Gregor runs a Slovenian sailing school, building Next.js site

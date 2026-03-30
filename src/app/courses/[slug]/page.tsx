@@ -3,6 +3,29 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import SignupForm from "@/components/SignupForm";
+import type { Metadata } from "next";
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const course = await prisma.course.findUnique({ where: { slug } });
+  if (!course) return {};
+  return {
+    title: course.name,
+    description: course.shortDescription,
+    alternates: { canonical: `https://navticni-tecaj.si/courses/${slug}` },
+    openGraph: {
+      title: `${course.name} — Navtični tečaji Izola`,
+      description: course.shortDescription,
+      url: `https://navticni-tecaj.si/courses/${slug}`,
+      images: [course.image],
+    },
+  };
+}
+
+export async function generateStaticParams() {
+  const courses = await prisma.course.findMany({ select: { slug: true } });
+  return courses.map((c) => ({ slug: c.slug }));
+}
 
 export default async function CoursePage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -22,8 +45,42 @@ export default async function CoursePage({ params }: { params: Promise<{ slug: s
 
   const availableDates = course.dates.filter((d) => d.spotsRemaining > 0);
 
+  const courseJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: course.name,
+    description: course.description,
+    provider: {
+      "@type": "Organization",
+      name: "Navtični tečaji Izola",
+      url: "https://navticni-tecaj.si",
+    },
+    url: `https://navticni-tecaj.si/courses/${slug}`,
+    image: course.image.startsWith("http") ? course.image : `https://navticni-tecaj.si${course.image}`,
+    ...(course.duration && { timeRequired: course.duration }),
+    offers: {
+      "@type": "Offer",
+      price: course.priceEur,
+      priceCurrency: "EUR",
+      availability: availableDates.length > 0 ? "https://schema.org/InStock" : "https://schema.org/SoldOut",
+    },
+  };
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }}
+      />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Domov", item: "https://navticni-tecaj.si" },
+          { "@type": "ListItem", position: 2, name: course.name, item: `https://navticni-tecaj.si/courses/${slug}` },
+        ],
+      }) }} />
+
       {/* Hero banner */}
       <section className="relative h-[45vh] min-h-[300px] flex items-end overflow-hidden">
         <Image

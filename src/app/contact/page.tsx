@@ -1,5 +1,17 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Kontakt",
+  description: "Kontaktirajte nas za več informacij o tečajih jadranja, izletih ali najemu plovil v Izoli. Odgovorimo v 24 urah.",
+  alternates: { canonical: "https://navticni-tecaj.si/contact" },
+  openGraph: {
+    title: "Kontakt — Navtični tečaji Izola",
+    description: "Kontaktirajte nas za več informacij o tečajih jadranja, izletih ali najemu plovil.",
+    url: "https://navticni-tecaj.si/contact",
+  },
+};
 
 export default function ContactPage() {
   return (
@@ -35,7 +47,7 @@ export default function ContactPage() {
 
             {/* Phone */}
             <a
-              href="tel:+38600000000"
+              href="tel:+38640871110"
               className="group flex items-center gap-5 bg-white rounded-2xl p-6 shadow-sm border border-gray-100 hover:shadow-lg hover:border-ocean/20 transition-all"
             >
               <div className="w-14 h-14 bg-ocean/10 rounded-xl flex items-center justify-center shrink-0 group-hover:bg-ocean/20 transition-colors">
@@ -45,7 +57,7 @@ export default function ContactPage() {
               </div>
               <div>
                 <p className="text-sm text-gray-500 mb-0.5">Telefon</p>
-                <p className="text-lg font-semibold text-navy">+386 XX XXX XXX</p>
+                <p className="text-lg font-semibold text-navy">+386 40 871 110</p>
               </div>
             </a>
 

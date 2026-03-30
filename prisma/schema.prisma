@@ -77,6 +77,19 @@ model Boat {
   @@map("boats")
 }
 
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  text      String
+  role      String
+  stars     Int      @default(5)
+  enabled   Boolean  @default(true)
+  sortOrder Int      @default(0) @map("sort_order")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("testimonials")
+}
+
 model AdminUser {
   id           String @id @default(cuid())
   username     String @unique
